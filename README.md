@@ -4,7 +4,7 @@ This template allows you to make calls to the Anaplan API to start/monitor an An
 # Prerequisites
 * OpCon 18.3+
 * WebServices Connector 20.1+ (recommended)
-* Anaplan API access
+* Anaplan API v2.0
 
 # Instructions
 Import the template to a new Web Services connector job in OpCon.  The template contains 5 steps:  
