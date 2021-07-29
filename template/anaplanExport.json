@@ -1,0 +1,135 @@
+{
+  "templateid" : "AnaplanExport",
+  "steps" : [ {
+    "function" : "GET",
+    "url" : "https://api.anaplan.com/2/0/workspaces?tenantDetails=true",
+    "proxyServer" : null,
+    "request" : {
+      "headers" : [ {
+        "attribute" : "Authorization",
+        "value" : "@anaplantoken"
+      } ],
+      "contentType" : "application/json",
+      "body" : null,
+      "fileName" : null
+    },
+    "response" : {
+      "contentType" : "application/json",
+      "variables" : [ {
+        "name" : "@workspaceid",
+        "value" : "$.workspaces[0].id"
+      } ],
+      "ignoreResult" : false,
+      "stepCompletionCode" : 200,
+      "responseDataCheck" : null,
+      "fileName" : null
+    }
+  }, {
+    "function" : "GET",
+    "url" : "https://api.anaplan.com/2/0/models?name=MyModel",
+    "proxyServer" : null,
+    "request" : {
+      "headers" : [ {
+        "attribute" : "Authorization",
+        "value" : "@anaplantoken"
+      } ],
+      "contentType" : "application/json",
+      "body" : null,
+      "fileName" : null
+    },
+    "response" : {
+      "contentType" : "application/json",
+      "variables" : [ {
+        "name" : "@modelid",
+        "value" : "$.models[0].id"
+      } ],
+      "ignoreResult" : false,
+      "stepCompletionCode" : 200,
+      "responseDataCheck" : null,
+      "fileName" : null
+    }
+  }, {
+    "function" : "GET",
+    "url" : "https://api.anaplan.com/2/0/workspaces/@workspaceid/models/@modelid/exports?name=MemberProgram",
+    "proxyServer" : null,
+    "request" : {
+      "headers" : [ {
+        "attribute" : "Authorization",
+        "value" : "@anaplantoken"
+      } ],
+      "contentType" : "application/json",
+      "body" : null,
+      "fileName" : null
+    },
+    "response" : {
+      "contentType" : "application/json",
+      "variables" : [ {
+        "name" : "@exportid",
+        "value" : "$.exports[0].id"
+      } ],
+      "ignoreResult" : false,
+      "stepCompletionCode" : 200,
+      "responseDataCheck" : null,
+      "fileName" : null
+    }
+  }, {
+    "function" : "POST",
+    "url" : "https://api.anaplan.com/2/0/workspaces/@workspaceid/models/@modelid/exports/@exportid/tasks",
+    "proxyServer" : null,
+    "request" : {
+      "headers" : [ {
+        "attribute" : "Authorization",
+        "value" : "@anaplantoken"
+      } ],
+      "contentType" : "application/json",
+      "body" : "{\"localeName\": \"en_US\"}",
+      "fileName" : null
+    },
+    "response" : {
+      "contentType" : "application/json",
+      "variables" : [ {
+        "name" : "@taskid",
+        "value" : "$.task.taskId"
+      } ],
+      "ignoreResult" : false,
+      "stepCompletionCode" : 200,
+      "responseDataCheck" : null,
+      "fileName" : null
+    }
+  }, {
+    "function" : "GET",
+    "url" : "https://api.anaplan.com/2/0/workspaces/@workspaceid/models/@modelid/exports/@exportid/tasks/@taskid",
+    "proxyServer" : null,
+    "request" : {
+      "headers" : [ {
+        "attribute" : "Authorization",
+        "value" : "@anaplantoken"
+      } ],
+      "contentType" : "application/json",
+      "body" : null,
+      "fileName" : null
+    },
+    "response" : {
+      "contentType" : "application/json",
+      "variables" : [ ],
+      "ignoreResult" : false,
+      "stepCompletionCode" : 200,
+      "responseDataCheck" : {
+        "goodFin" : "COMPLETE",
+        "badFin" : "CANCELED",
+        "attributeToCheck" : "$.task.taskState",
+        "poll" : true,
+        "pollDelay" : 3,
+        "pollInterval" : 2,
+        "pollMaxTime" : 60
+      },
+      "fileName" : null
+    }
+  } ],
+  "variables" : [ {
+    "name" : "@anaplantoken",
+    "value" : "??????"
+  } ],
+  "environmentVariables" : [ ],
+  "properties" : [ ]
+}
